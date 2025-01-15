@@ -1,6 +1,7 @@
 #include <Servo.h>
 
-// Define pins for Arduino Uno
+
+// Define pins for Arduino Uno.
 const int relayOnPin = A4;     // Pin 27 for Relay On
 const int relayOffPin = A3;    // Pin 26 for Relay Off
 const int temp_bat1 = A1;      // Pin24 
