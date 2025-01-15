@@ -11,7 +11,7 @@ const int throttlePin = A7;    // Pin 22 for Throttle Input
 const int motorPWM = 3;        // Pin1 for Motor PWM (or any other PWM pin)
 const int voltagePin = A6;     // Pin 19 for Voltage Sensing
 
-
+//Almog was here
 struct NTC {
   String name_ntc;
   int Threshold;
