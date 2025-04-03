@@ -17,6 +17,7 @@ const int motorPWM = 3;        // Pin1 for Motor PWM (or any other PWM pin)
 const int voltagePin = A6;     // Pin 19 for Voltage Sensing
 
 
+//comment
 struct NTC {
   String name;
   int threshold;
