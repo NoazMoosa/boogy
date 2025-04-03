@@ -86,10 +86,41 @@ void loop() {
   Serial.println(error_code);
 
   if (error_code == 0 && relay_state == false) turn_relay(true);
+
+
   
+  switch(error_code) {
+    case 1:
+      Serial.println("Battery 1 over temperature!");
+      break;
+    case 2:
+      Serial.println("Battery 2 over temperature!");
+      break;
+    case 3:
+      Serial.println("Relay over temperature!");
+      break;
+    default: 
+      if (relay_state == false) {
+        turn_relay(true);
+      }
+      break;
+  }
+  // Read the throttle value (0-1023) and map it to motor speed (0-255)
+  throttleValue = analogRead(throttlePin); // Read the throttle value
+  motorSpeed = map(throttleValue, 0, 1023, 0, 255); // Map to motor speed (0-255)
+  // Set the motor speed using PWM
+  analogWrite(motorPWM, motorSpeed); // Set the motor speed using PWM
+  // Print the throttle value and motor speed for debugging
+  Serial.print("Throttle Value: ");
+  Serial.print(throttleValue);
+  Serial.print(", Motor Speed: ");
+  Serial.println(motorSpeed);
+
   check_voltage();
   temperature_validation();
-    
+   
+  
+
  // Reading temperature or humidity takes about 250 milliseconds!
  // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
 //  float h = dht.readHumidity();
@@ -162,4 +193,41 @@ void turn_relay(bool start){
 // interrupt function that check all the temperture and humidety 
 void test(){
   
+}
+
+vo
+
+
+
+handle_error(err_code) {
+  switch (expression)
+  {
+  case constant expression:
+    /* code */
+    break;
+  
+  default:
+    break;
+  }
+}
+
+void hwait_until_resolved(err_code) {
+  switch (expression)
+  {
+  case constant expression:
+    /* code */
+    break;
+  
+  default:
+    break;
+  }
+}
+
+class temp_handler : abs_handler {
+  error_code = 4;
+
+  void report_error() {
+    Serial.println("Relay over temperature!");
+    sound();
+  }
 }
