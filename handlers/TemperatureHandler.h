@@ -12,7 +12,7 @@ class TemperatureHandler : public ErrorHandler {
             String type;
             float threshold;
             int pin;
-            volatile bool ok ; // true if the temperature is ok, false if it is not
+            volatile bool ok ; // true if the temperature is ok, false if it is  not
             volatile float temperature; // Temperature value 
             volatile bool known ; // true if the temperature is known, false if it is not
         };
