@@ -1,42 +1,44 @@
 #include <Servo.h>
 #include <TimerOne.h>
 #include "DHT.h"
+#include "ErrorHandler.h"
+#include "TemperatureHandler.h"
+#include "Pins.h"
+
 
 // volatile for shared variables between ISR and loop().
 volatile int error_code = 0;  // Global variable to store value
 
 
-// Define pins for Arduino Uno.
-const int relayOnPin = A4;     // Pin 27 for Relay On
-const int relayOffPin = A3;    // Pin 26 for Relay Off
-const int temp_bat1 = A1;      // Pin24 
-const int temp_bat2 = A2;      // Pin25 
-const int temp_relay = A0;     // Pin23 
-const int throttlePin = A7;    // Pin 22 for Throttle Input
-const int motorPWM = 3;        // Pin1 for Motor PWM (or any other PWM pin)
-const int voltagePin = A6;     // Pin 19 for Voltage Sensing
 
-
-//comment
-struct NTC {
+// Define sensor type and pin
+/*struct NTC {
   String name;
   int threshold;
   int pin;
-};
+};*/
 
 // Variables
-NTC NTCs[3]={
+/*NTC NTCs[3]={
   {"bat1",50,temp_bat1},  //NTCs[0]
   {"bat2",50,temp_bat2},  //NTCs[1]
   {"raley",30,temp_relay} //NTCs[2]
-};
+};*/
+
+ErrorHandler* handlers[5];
+
+handlers[0] = new TemperatureAlert(1);
+handlers[1] = new LowVoltage(2);
+handlers[2] = new CriticalVoltage(3);
+handlers[3] = new HighHumidity(4);
+handlers[4] = new CommunicationAlert(5);
 
 int   throttleValue = 0;
 int   motorSpeed = 0;
-int   voltage_reading = 0;
-float input_voltage=0;
-float temperature_relay=0;
-bool  relay_state=false;
+int   voltageReading = 0;
+float inputVoltage=0;
+float temperatureRelay=0;
+bool  relayState=false;
 
 
 //functions 
@@ -85,22 +87,32 @@ void loop() {
   Serial.print("error_code: ");  
   Serial.println(error_code);
 
-  if (error_code == 0 && relay_state == false) turn_relay(true);
+  if (error_code == 0 && relayState == false) turn_relay(true);
 
+  handler = error_handler[error_code];
+
+  handler.report_error();
+  handler.handle_error();
 
   
   switch(error_code) {
     case 1:
       Serial.println("Battery 1 over temperature!");
+      report_error(error_code)
+      turn_relay(false)
       break;
     case 2:
       Serial.println("Battery 2 over temperature!");
+      report_error(error_code)
+      limit_pwm();
       break;
     case 3:
-      Serial.println("Relay over temperature!");
+      Serial.println("Relay over temperature!")
+      report_error(error_code)
       break;
     default: 
-      if (relay_state == false) {
+    report_error(error_code)
+      if (relayState == false) {
         turn_relay(true);
       }
       break;
@@ -130,18 +142,18 @@ void loop() {
 }
 
 int check_voltage() {
-  voltage_reading = analogRead(voltagePin); // 0-1023
-  input_voltage = (voltage_reading / 1023.0) * 5.0*6.23;
+  voltageReading = analogRead(voltagePin); // 0-1023
+  inputVoltage = (voltageReading / 1023.0) * 5.0*6.23;
 
   Serial.print("Voltage: ");
-  Serial.println(input_voltage);
+  Serial.println(inputVoltage);
 
-  if (input_voltage < 16) {
+  if (inputVoltage < 16) {
     // Turn off the relay
     turn_relay(false);
     error_code = 1; 
   }
-  else error_code = 0;  //relay_state = turn_relay(true); 
+  else error_code = 0;  //relayState = turn_relay(true); 
 }
 
 void temperature_validation() {
@@ -187,7 +199,7 @@ void turn_relay(bool start){
     delay(1000);
   }  
   
-  relay_state = start;
+  relayState = start;
 }
 
 // interrupt function that check all the temperture and humidety 
