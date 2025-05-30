@@ -6,6 +6,7 @@
 #include "Pins.h"
 #include "function.h"
 #include "VoltageHandler.h"
+#include "AveragedServoController.h"
 
 volatile int error_code = 0;  // Global variable to store value
 
@@ -18,7 +19,7 @@ bool  relayState=false;
 
 VoltageHandler VH(0);
 TemperatureHandler TH(0);
-
+AveragedServoController servoCtrl(throttlePin, motorPWM);
 
 
 void setup() {
@@ -40,15 +41,14 @@ void setup() {
 
   // Start serial monitor for debugging
   Serial.begin(9600);
-//  dht.begin();
+  servoCtrl.begin();
+//dht.begin();
   delay(2000);
 }
 
 
 void loop() {
 
-  
- 
   VH.check(); // Check voltage
   VH.handle(); // Handle voltage error
   TH.check(); // Check temperature
@@ -57,8 +57,12 @@ void loop() {
   VH.report_error(); // Report voltage error if any
   delay(10); // Delay for 10ms
 
-  if(VH.get_error_code() == 0 && TH.get_error_code() == 0 && !relayState) { // Check if there is no error
+  if(VH.get_error_code() != 2 && TH.get_error_code() == 0 && !relayState) { // Check if there is no error
     turn_relay(true); // Turn on the relay
   }
-
+  else if (VH.get_error_code() == 0 && TH.get_error_code() == 0 && relayState ) { // Check if there is no error
+    servoCtrl.clearMaxAngle(); // anable full power
+    servoCtrl.enable();
+  }
+  servoCtrl.update();
 }
