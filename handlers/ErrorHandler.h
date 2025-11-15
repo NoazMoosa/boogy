@@ -4,6 +4,7 @@
 #include "function.h"
 #include <Arduino.h> 
 #include "Pins.h"
+#include <DFRobotDFPlayerMini.h>
 
 class ErrorHandler {
 protected:

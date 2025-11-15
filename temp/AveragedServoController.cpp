@@ -2,7 +2,7 @@
 
 AveragedServoController::AveragedServoController(int sensorPin, int servoPin, int sampleCount, unsigned long intervalMs)
   : sensorPin(sensorPin), servoPin(servoPin), sampleCount(sampleCount),
-    index(0), samplesFull(false), lastSampleTime(0), sampleInterval(intervalMs),angleLimit(180), enabled(true)
+    index(0), samplesFull(false), lastSampleTime(0), sampleInterval(intervalMs)
 {
   samples = new int[sampleCount];
 }
@@ -19,7 +19,7 @@ void AveragedServoController::begin() {
 void AveragedServoController::setEnabled(bool state) {
   enabled = state;
   if (!enabled) {
-    servo.write(96); // Stop servo movement if disabled ( idont know whay 90 not give 1.5ms pulse maybe becuse the vcc change to ESC
+    servo.write(90); // Stop servo movement if disabled
   }
 }
 
@@ -41,6 +41,7 @@ void AveragedServoController::clearMaxAngle() {
 
 void AveragedServoController::update() {
   unsigned long currentMillis = millis();
+
   // Sensor sampling at fixed interval
   if (currentMillis - lastSampleTime >= sampleInterval) {
     lastSampleTime = currentMillis;
@@ -60,10 +61,8 @@ void AveragedServoController::update() {
     }
 
     int avg = sum / sampleCount;
-    //Serial.println("analog: " + String(avg));
-    avg = constrain(avg, 100, 800); 
-    int angle = map(avg, 100, 800, 90,angleLimit); 
-    //Serial.println("send: " + String(angle));
+    int angle = map(avg, 100, 800, angleLimit,90);
+    angle = constrain(angle, 90, angleLimit);
 
     servo.write(angle);
     samplesFull = false;

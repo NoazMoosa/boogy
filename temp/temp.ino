@@ -23,7 +23,7 @@ float inputVoltage=0;
 bool  relayState=false;
 
 SimpleDFPlayer dfPlayer(12);
-VoltageHandler VH(0,&dfPlayer);
+VoltageHandler VH(0);
 TemperatureHandler TH(0, &dfPlayer);
 AveragedServoController servoCtrl(throttlePin, motorPWM);
 
@@ -71,9 +71,9 @@ void loop() {
     TH.report_error(); // Report temperature error if any
     VH.report_error(); // Report voltage error if any
   }
-  delay(3); // Delay for 3ms
+  delay(10); // Delay for 10ms
 
-  if(VH.get_error_code() != 3 && TH.get_error_code() == 0 && !relayState) { // Check if there is no error
+  if(VH.get_error_code() != 2 && TH.get_error_code() == 0 && !relayState) { // Check if there is no error
     turn_relay(true); // Turn on the relay
   }
   else if (VH.get_error_code() == 0 && TH.get_error_code() == 0 && relayState ) { // Check if there is no error

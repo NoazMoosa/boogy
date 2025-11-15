@@ -13,7 +13,6 @@ class TemperatureHandler : public ErrorHandler {
             String type;
             int s; // sound to play when the temperature is over the threshold
             float threshold;
-            float hysteresis; // hysteresis value
             int pin;
             volatile bool ok ; // true if the temperature is ok, false if it is  not
             volatile float temperature; // Temperature value 
@@ -21,9 +20,9 @@ class TemperatureHandler : public ErrorHandler {
         };
 
         NTC NTCs[number_NTC] = {
-            {"bat1","critical", 2, 50.0, 5, temp_bat1,true,25.0,false},  //NTCs[0]
-            {"bat2","critical", 2, 50.0, 5, temp_bat2,true,25.0,false},  //NTCs[1]
-            {"relay","critical",2, 60.0, 5, temp_relay,true,25.0,false} //NTCs[2]
+            {"bat1","critical", 1, 50.0, temp_bat1,true,25.0,false},  //NTCs[0]
+            {"bat2","critical", 1, 50.0, temp_bat2,true,25.0,false},  //NTCs[1]
+            {"relay","critical",1, 35.0, temp_relay,true,25.0,false} //NTCs[2]
         };
         
     public:

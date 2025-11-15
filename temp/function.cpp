@@ -15,14 +15,14 @@ void turn_relay(bool start){
       delay(100);
       digitalWrite(relayOnPin, LOW);
       delay(1000);
-      //Serial.println("Relay on");
+      Serial.println("Relay on");
     }
     else if(relayState != start && !start) {
       digitalWrite(relayOffPin, HIGH);
       delay(100);
       digitalWrite(relayOffPin, LOW);
       delay(1000);
-      //Serial.println("Relay off");
+      Serial.println("Relay off");
     }  
     
     relayState = start;

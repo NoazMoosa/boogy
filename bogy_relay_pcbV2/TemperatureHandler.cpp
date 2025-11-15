@@ -4,10 +4,12 @@ void TemperatureHandler::report_error() const {
     if(error_code!=0){ 
         for (int i = 0; i < number_NTC; i++) {
             if (!NTCs[i].ok) {
-        
-                Serial.println("Temperature error: " + NTCs[i].name + " is over the threshold."+
-                               " Temperature: " + String(NTCs[i].temperature) +
-                               ", Threshold: " + String(NTCs[i].threshold));
+                //Serial.println("Temperature error: " + NTCs[i].name + " is over the threshold."+
+                //               " Temperature: " + String(NTCs[i].temperature) +
+                //               ", Threshold: " + String(NTCs[i].threshold)+
+                //               ", s: " + NTCs[i].s);
+                 player->playTrack(NTCs[i].s); // Play error sound
+                //player->playTrack(Errror_code);
             }
         }
     }
@@ -31,6 +33,7 @@ void TemperatureHandler::handle()  {
     for(int i=0; i<number_NTC; i++){
         if (!NTCs[i].ok && !NTCs[i].known){
             react_type(NTCs[i].type); // React to the error condition 
+            report_error(); // Report the error
             NTCs[i].known = true; // Set the known flag to true  
         }
       }
@@ -50,12 +53,16 @@ bool TemperatureHandler :: is_over_temp(NTC& X){
     // Calculate the temperature using the Steinhart-Hart equation (simplified version)
     temperature = (1.0 / (1.0 / 298.15 + (1.0 / B_CONSTANT) * log(thermistor_resistance / 10000.0)))- 273.15;
  
-    Serial.println("sensor: " + X.name + ", th: " + String(X.threshold)+ ", temp: " + String(temperature));
+    //Serial.println("sensor: " + X.name + ", th: " + String(X.threshold)+ ", temp: " + String(temperature));
     
     X.temperature = temperature; // Update the temperature value in the struct
-    if (X.ok == false && (temperature <= X.threshold)) {
+    if (X.ok == false && (temperature <= X.threshold-X.hysteresis)) {
         X.known = false; // Reset the known flag if temperature is ok
+        X.ok = true; // Update the ok status based on the temperature
     }
-    X.ok = (temperature <= X.threshold); // Update the ok status based on the temperature
+    else if(temperature > X.threshold){
+        X.ok = false; // Update the ok status based on the temperature
+    }
+     
     return(temperature > X.threshold);
 }

@@ -6,7 +6,6 @@ ErrorHandler::ErrorHandler(int code) : error_code(code), active(false) {}
 void ErrorHandler::react_type(String type){
     if(type == "critical"){   
         pwm_stop(true); // Stop the PWM signal
-        delay(1000);
         turn_relay(false); // Turn off the relay
         error_code = 2; // Set error code to 2 for critical low voltage
     } else if (type == "low_power"){
@@ -18,3 +17,4 @@ void ErrorHandler::react_type(String type){
         error_code = 0; // Set error code to 0 for normal voltage or temperature
     }
 }
+

@@ -6,6 +6,8 @@
 #include "Pins.h"
 #include "function.h"
 #include "VoltageHandler.h"
+#include <SoftwareSerial.h>
+#include <DFRobotDFPlayerMini.h>
 
 volatile int error_code = 0;  // Global variable to store value
 
@@ -16,8 +18,11 @@ int   voltageReading = 0;
 float inputVoltage=0;
 bool  relayState=false;
 
+SoftwareSerial mySerial(255, 12); // RX-nopin, TX =D12 PB4 for DFPlayer Mini
+DFRobotDFPlayerMini myDFPlayer;
+
 VoltageHandler VH(0);
-TemperatureHandler TH(0);
+TemperatureHandler TH(0, &myDFPlayer);
 
 
 
@@ -40,6 +45,10 @@ void setup() {
 
   // Start serial monitor for debugging
   Serial.begin(9600);
+
+  myDFPlayer.begin(mySerial); // Initialize DFPlayer Mini
+  myDFPlayer.volume(30); // Set volume to a reasonable level (0-30)
+
 //  dht.begin();
   delay(2000);
 }
