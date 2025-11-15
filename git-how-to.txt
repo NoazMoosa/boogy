@@ -1,0 +1,26 @@
+Simple commands:
+========================================
+bash cli command line:  
+cd <path to directory>  
+
+Create a new branch:
+git checkout -b BRANCH-NAME
+
+Understand status:
+git status
+
+Delete a branch:
+git branch -D BRANCH-NAME
+
+Push code to cloud:
+git push
+
+Pull new / existing code to computer:
+git pull
+
+
+Flow to add new code:
+========================================
+git add .   // Adds all files under the current directory
+git commit -m "message"  // saves the changes with a message you write
+git push  // push the code to the cloud
