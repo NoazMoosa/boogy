@@ -9,3 +9,6 @@ extern const int temp_relay ;     // Pin23
 extern const int throttlePin ;    // Pin 22 for Throttle Input
 extern const int motorPWM ;        // Pin1 for Motor PWM (or any other PWM pin)
 extern const int voltagePin ;     // Pin 19 for Voltage Sensing
+extern const int humidityDataPin ;
+extern const int humidityVccPin  ;  // PB2 pin 14   (PB0 pin 12 is D8 used for POC board)
+extern const int humidityGndPin  ;   // PB1 pin 13

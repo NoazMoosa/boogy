@@ -3,6 +3,7 @@
 #include "DHT.h"
 #include "ErrorHandler.h"
 #include "TemperatureHandler.h"
+#include "HumidityHandler.h"
 #include "Pins.h"
 #include "function.h"
 #include "VoltageHandler.h"
@@ -26,7 +27,7 @@ SimpleDFPlayer dfPlayer(12);
 VoltageHandler VH(0,&dfPlayer);
 TemperatureHandler TH(0, &dfPlayer);
 AveragedServoController servoCtrl(throttlePin, motorPWM);
-
+HumidityHandler HH(20.0f, 80.0f, 4); // min 20%, max 80%, error code 4
 
 void setup() {
   // Set pin modes
@@ -38,6 +39,8 @@ void setup() {
   pinMode(throttlePin, INPUT);
   pinMode(motorPWM, OUTPUT);
   pinMode(voltagePin, INPUT);
+  pinMode(humidityVccPin, OUTPUT);
+  pinMode(humidityGndPin, OUTPUT);
 
   // Initialize the relay off
   digitalWrite(relayOnPin, LOW);
@@ -51,6 +54,7 @@ void setup() {
   servoCtrl.begin();
   dfPlayer.begin();
   dfPlayer.setVolume(30); // Set volume to a reasonable level (0-30)
+  HH.resetSensor();
    
 //dht.begin();
   delay(2000);
@@ -70,6 +74,7 @@ void loop() {
     previousMillis = currentMillis; // Update the time of the last report
     TH.report_error(); // Report temperature error if any
     VH.report_error(); // Report voltage error if any
+    HH.report_error(); // Report humidity error if any
   }
   delay(3); // Delay for 3ms
 

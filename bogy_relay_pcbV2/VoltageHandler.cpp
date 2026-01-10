@@ -45,7 +45,7 @@ void VoltageHandler::handle()  {
     if (ok_shutdown && error_code!=2) {
         react_type("critical"); // React to the error condition 
         //Serial.print("critical: ");
-        error_code = 3; // Set error code to 2 for critical low voltage
+        error_code = 3; // Set error code to 3 for critical low voltage
         report_error(); 
     } else if (ok_limit && error_code==0) {
         react_type("low_power"); // React to the error condition 

@@ -9,5 +9,12 @@ const int temp_relay   = A0;    // Pin 23 for Relay Temperature
 const int throttlePin  = A7;    // Pin 22 for Throttle Input
 const int motorPWM     = 3;   // Pin 1 for Motor PWM (or any other PWM pin)
 const int voltagePin   = A6;    // Pin 19 for Voltage Sensing
+// const int humidityDataPin = 9;   // PB1 pin 13
+// const int humidityVccPin  = 10;  // PB2 pin 14   (PB0 pin 12 is D8 used for POC board)
+// const int humidityGndPin  = 5;   // PD5 pin 9
 
+// used for POC board
+const int humidityDataPin = 5;   // PD5 pin 9 
+const int humidityVccPin  = 10;  // PB2 pin 14   (PB0 pin 12 is D8 used for POC board)
+const int humidityGndPin  = 9;   // PB1 pin 13
 
