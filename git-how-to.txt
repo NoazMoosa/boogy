@@ -1,14 +1,45 @@
 Simple commands:
 ========================================
+<<<<<<< HEAD
 bash cli command line:  
 cd <path to directory>  
 
 Create a new branch:
 git checkout -b BRANCH-NAME
+=======
+bash cli command line:  (move terminal to be in the git directory)
+$ cd <path to directory>  
+
+Pull latest master version from cloud to local:
+$ git pull
+
+Create a new branch:
+$ git checkout -b BRANCH-NAME
+
+When you want to push the changes to the cloud:
+1. Stage to commit - Add all the files you want to be added/modified in the branch. 
+If it's all changed/added files just do:
+$ git add .
+
+(If you want only specific files, replace '.' with the file names)
+
+2. Commit - save all the changes to the local branch
+$ git commit -m "commit_message"
+
+3. Push to the cloud branch
+$ git push
+
+
+========================================
+Other:
+Delete a branch:
+git branch -D BRANCH-NAME
+>>>>>>> 1714032 (new pwm work - completed)
 
 Understand status:
 git status
 
+<<<<<<< HEAD
 Delete a branch:
 git branch -D BRANCH-NAME
 
@@ -24,3 +55,6 @@ Flow to add new code:
 git add .   // Adds all files under the current directory
 git commit -m "message"  // saves the changes with a message you write
 git push  // push the code to the cloud
+=======
+
+>>>>>>> 1714032 (new pwm work - completed)

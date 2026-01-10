@@ -10,7 +10,11 @@ void ErrorHandler::react_type(String type){
         turn_relay(false); // Turn off the relay
         error_code = 2; // Set error code to 2 for critical low voltage
     } else if (type == "low_power"){
+<<<<<<< HEAD
         limit_pwm(135); // Limit the PWM signal
+=======
+        limit_pwm(1750); // Limit the PWM signal
+>>>>>>> 1714032 (new pwm work - completed)
         error_code = 1; // Set error code to 1 for low voltage or worming temperature
     } 
     else if (type == "normal"){

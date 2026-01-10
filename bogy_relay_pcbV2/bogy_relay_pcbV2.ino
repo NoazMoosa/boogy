@@ -54,6 +54,10 @@ void setup() {
    
 //dht.begin();
   delay(2000);
+<<<<<<< HEAD
+=======
+  
+>>>>>>> 1714032 (new pwm work - completed)
 }
 
 
@@ -71,13 +75,21 @@ void loop() {
     TH.report_error(); // Report temperature error if any
     VH.report_error(); // Report voltage error if any
   }
+<<<<<<< HEAD
   delay(3); // Delay for 3ms
+=======
+  delay(3); // Delay for 10ms
+>>>>>>> 1714032 (new pwm work - completed)
 
   if(VH.get_error_code() != 3 && TH.get_error_code() == 0 && !relayState) { // Check if there is no error
     turn_relay(true); // Turn on the relay
   }
   else if (VH.get_error_code() == 0 && TH.get_error_code() == 0 && relayState ) { // Check if there is no error
+<<<<<<< HEAD
     servoCtrl.clearMaxAngle(); // anable full power
+=======
+    servoCtrl.clearMaxPulse(); // anable full power
+>>>>>>> 1714032 (new pwm work - completed)
     servoCtrl.enable();
   }
   servoCtrl.update();

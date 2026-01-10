@@ -43,7 +43,11 @@ void pwm_stop(bool yes){
 }
   
 void limit_pwm(int level){
+<<<<<<< HEAD
       servoCtrl.setMaxAngle(level); // Set the maximum angle for the servo
+=======
+      servoCtrl.setMaxPulse(level); // Set the maximum pulse width for the servo
+>>>>>>> 1714032 (new pwm work - completed)
   } 
   
   
